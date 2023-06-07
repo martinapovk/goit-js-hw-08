@@ -8,7 +8,7 @@ const textareaRef = document.querySelector('.feedback-form textarea');
 
 const FEEDBACK_KEY = 'feedback-form-state';
 
-const feedbackData = load(FEEDBACK_KEY) ?? {};
+let feedbackData = load(FEEDBACK_KEY) ?? {};
 
 formFill(feedbackData);
 
@@ -47,10 +47,18 @@ function formInputHendle(evt) {
 
 function formSubmitHendle(evt) {
   evt.preventDefault();
-  if (load(FEEDBACK_KEY)) {
-    console.log(load(FEEDBACK_KEY));
-    inputRef.value = '';
-    textareaRef.value = '';
-    localStorage.removeItem(FEEDBACK_KEY);
+
+  if (inputRef.value === '' || textareaRef.value === '') {
+    return alert('Заповніть усі поля!!!');
   }
+
+  feedbackData.email = inputRef.value;
+  feedbackData.message = textareaRef.value;
+
+  console.log(feedbackData);
+
+  inputRef.value = '';
+  textareaRef.value = '';
+  feedbackData = {};
+  localStorage.removeItem(FEEDBACK_KEY);
 }
